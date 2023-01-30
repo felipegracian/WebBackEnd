@@ -1,6 +1,6 @@
 /******************************************************
  * Objetivo: Calcular média de 4 notas escolares
- * Autora: Bianca Pereira Leão
+ * Autor: Felipe Graciano
  * Data: 27/01/2023
  * Versão: 1.0
  ******************************************************/
@@ -17,9 +17,9 @@ var entradaDados = readline.createInterface({
 });
 
 /**
- * var -> cria um espaço memóia de escopo global para o projeto, ou seja essa variável poderá ser utilizada em qualquer parte do arquivo (várias functions).
- * let -> cria um espaço memóia de escopo local para o projeto, ou seja essa variável somente poderá ser utilizada dentro da função que foi criada.
- * const -> cria um espaço memóia de escopo global ou local para o projeto, ou seja essa constante poderá ser utilizada em qualquer parte do projeto e nunca sofrerá alterção.
+ * var -> cria um espaço memória de escopo global para o projeto, ou seja essa variável poderá ser utilizada em qualquer parte do arquivo (várias functions).
+ * let -> cria um espaço memória de escopo local para o projeto, ou seja essa variável somente poderá ser utilizada dentro da função que foi criada.
+ * const -> cria um espaço memória de escopo global ou local para o projeto, ou seja essa constante poderá ser utilizada em qualquer parte do projeto e nunca sofrerá alterção.
  */
 
 entradaDados.question('Digite seu nome: \n', function (nome) {
@@ -72,8 +72,24 @@ entradaDados.question('Digite seu nome: \n', function (nome) {
                         )
                     {
                         console.log('Você não digitou um número válido')
-                    }else{
-                        let media = (Number(valor1) + Number(valor2) + Number(valor3)+ Number(valor4))/4;
+                     //Validação para entrada de dados somente entre 0 e 10   
+                    }else if(
+                        valor1 < 0 || valor1 > 10 || valor2 < 0 || valor2 > 10 || valor3 < 0 || valor3 > 10 || valor4 < 0 || valor4 > 10
+                        
+                    )
+                    {
+                        console.log('As notas variam apenas de 0 a 10')
+                    } else {
+                        media = (Number(valor1) + Number(valor2) + Number(valor3) + Number(valor4)) /4;
+                        if (media < 7)
+                        {
+                            console.log('Aluno REPROVADO!!')
+                        }
+                        else {
+                            console.log('Aluno APROVADO!!')
+                        }
+
+                        console.log('Média do Aluno ' + media.toFixed(1));
                     }
                 
 
