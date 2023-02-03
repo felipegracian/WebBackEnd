@@ -8,6 +8,7 @@
 // Import da biblioteca readline (entrada de dados).
 
 var readline = require('readline');
+var matematica = require('./AULA 04/modulo/calculadora.js');
 
 // Cria objeto para ser especialista em entrada de dados pelo teclado.
 
@@ -23,51 +24,38 @@ var entradaDados = readline.createInterface({
  */
 
 
- entradaDados.question('Qual o primeiro valor? \n' , function (valor1) {
-     // recebe valor digitado pelo teclado
+entradaDados.question('Qual o primeiro valor? \n', function (valor1) {
+    // recebe valor digitado pelo teclado
 
-     let primeiroValor = valor1.replace(',' , '.');
+    let primeiroValor = valor1.replace(',', '.');
 
-     entradaDados.question('Qual o segundo valor? \n' , function (valor2) {
+    entradaDados.question('Qual o segundo valor? \n', function (valor2) {
 
-        let segundoValor = valor2.replace(',' , '.' );
+        let segundoValor = valor2.replace(',', '.');
 
-        
 
-        entradaDados.question('Qual a operação desejada : 1- Soma \n 2 - Subtração \n 3 - Multiplicação \n 4- Divisão \n' , function (operacao) {
+
+        entradaDados.question('Qual a operação desejada : 1- Somar \n 2 - Subtrair \n 3 - Multiplicar \n 4- Dividir \n', function (operacao) {
 
             let operacaoDesejada = operacao;
+            let resultado;
 
-            
-            
-            
-            
 
-            if(primeiroValor == '') {
-                console.log('O primeiro valor é obrigatório')
-            } else if(segundoValor == '') {
-                console.log('O segundo valor é obrigatório')
-            } else if (isNaN(primeiroValor)) {
+            if (primeiroValor == '' || segundoValor == '' || operacaoDesejada == '') {
+                console.log('Todos valores são obrigatórios')
+                entradaDados.close();
+            } else if (isNaN(primeiroValor) || isNaN(segundoValor)) {
                 console.log('Caractére inválido : Digite apenas números nos valores')
-            } else if (isNaN(segundoValor)) {
-                console.log('Caractére inválido : Digite apenas números nos valores')
-            }
-               else if (operacao == 1){
-                console.log(Number(primeiroValor) + Number(segundoValor));
-            }
-              else if (operacao == 2) {
-                console.log(Number(primeiroValor) - Number(segundoValor));
-            } else if (operacao == 3) {
-                console.log(Number(primeiroValor) * Number(segundoValor));
-            } else if (operacao == 4 && valor2 == 0) {
-                console.log('Divisões não podem ser feitas pelo número 0')
-            } else if (operacao == 4) { 
-                console.log(Number(primeiroValor) / Number(segundoValor));
-            }
-               else {
-                console.log('ERRO: Escolha uma opção.')
+                entradaDados.close();
+            } else {
+               resultado = matematica.calculadora(primeiroValor, segundoValor, operacaoDesejada);
+               if(resultado = false){
+                   console.log(resultado)
+               } else {
+                   entradaDados.close();
+               }
             }
         });
 
-     });
- });
+    });
+});
