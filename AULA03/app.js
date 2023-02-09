@@ -49,11 +49,10 @@ entradaDados.question('Qual o primeiro valor? \n', function (valor1) {
                 entradaDados.close();
             } else {
                resultado = matematica.calculadora(primeiroValor, segundoValor, operacaoDesejada);
-               if(resultado = false){
-                   console.log(resultado)
-               } else {
-                   entradaDados.close();
+               if(resultado == false && typeof(resultado) == 'boolean'){
+                entradaDados.close();
                }
+               
             }
         });
 
