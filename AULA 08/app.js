@@ -6,6 +6,13 @@
  * Versão : 1.0
  * ******************************************************************************************* */
 
+ 
+// (Para termos a conexão do projeto com o banco de dados, devemos utilizar a biblioteca prisma, sempre utilizar os comandos)
+ // npm install prisma --save
+ //npx prisma
+ //npx prisma init
+ //npm install @prisma/client --save
+ //npx prisma migrate dev
 
 //import das bibliotecas para API
 const express = require('express');
@@ -35,11 +42,57 @@ app.use((request, response, next) => {
 //Endpoint: retorna todos os dados de alunos
 app.get('/v1/lion-school/aluno', cors(), async function(request, response){
 
+    //Import do arquivo controller que irá solicitar a model os dados do Banco
+    let controllerAluno = require('./controller/controler_aluno.js')
+
+    //Recebe os dados da controller do aluno
+    let dadosAluno = await controllerAluno.getAlunos()
+
+    //Valida se existem registros de aluno
+    if(dadosAluno){
+        response.json(dadosAluno)
+        response.status(200)
+    } else{
+        response.json()
+        response.status(404)
+    }
 })
 
 
 //Endpoint: retorna todos os dados do aluno filtrando pelo id
 app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response){
+
+    let idAluno = request.params.id
+
+    let controllerAluno = require('./controller/controler_aluno.js')
+
+    let dadosAluno = await controllerAluno.getAlunosByID(idAluno)
+
+    if(dadosAluno){
+        response.json(dadosAluno)
+        response.status(200)
+    } else{
+        response.json()
+        response.status(404)
+    }
+
+})
+
+app.get('/v1/lion-school/aluno/nome/:nome', cors(), async function(request, response){
+
+    let nomeAluno = request.params.nome
+
+    let controllerAluno = require('./controller/controler_aluno.js')
+
+    let dadosAluno = await controllerAluno.getAlunosByName(nomeAluno)
+
+    if(dadosAluno){
+        response.json(dadosAluno)
+        response.status(200)
+    } else{
+        response.json()
+        response.status(404)
+    }
 
 })
 
