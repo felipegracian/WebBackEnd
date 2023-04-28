@@ -34,7 +34,11 @@ app.use((request, response, next) => {
     next();
 });
 
-//CRUD (Create, Read, Update, Delete)
+
+//Import do arquivo controller que irá solicitar a model os dados do Banco
+let controllerAluno = require('./controller/controler_aluno.js')
+//Define que os dados que irão chegar no body da requisição será no padrao json
+const bodyParserJSON = bodyParser.json();
 
 //Endpoints de alunos {
 
@@ -42,8 +46,7 @@ app.use((request, response, next) => {
 //Endpoint: retorna todos os dados de alunos
 app.get('/v1/lion-school/aluno', cors(), async function(request, response){
 
-    //Import do arquivo controller que irá solicitar a model os dados do Banco
-    let controllerAluno = require('./controller/controler_aluno.js')
+    
 
     //Recebe os dados da controller do aluno
     let dadosAluno = await controllerAluno.getAlunos()
@@ -64,7 +67,7 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response){
 
     let idAluno = request.params.id
 
-    let controllerAluno = require('./controller/controler_aluno.js')
+   
 
     let dadosAluno = await controllerAluno.getAlunosByID(idAluno)
 
@@ -82,7 +85,7 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async function(request, resp
 
     let nomeAluno = request.params.nome
 
-    let controllerAluno = require('./controller/controler_aluno.js')
+    
 
     let dadosAluno = await controllerAluno.getAlunosByName(nomeAluno)
 
@@ -98,7 +101,15 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async function(request, resp
 
 
 //Insere um aluno novo
-app.post('/v1/lion-school/aluno', cors(), async function(request, response){
+app.post('/v1/lion-school/aluno', cors(), bodyParserJSON, async function(request, response){
+
+    //recebe os dados encaminhados na requisição
+    let dadosBody = request.body
+
+    let ResultDadosAluno = await controllerAluno.inserirNovoAluno(dadosBody)
+
+    response.status((ResultDadosAluno).status)
+    response.json(ResultDadosAluno)
 
 })
 

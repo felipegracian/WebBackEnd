@@ -7,10 +7,34 @@
  * ******************************************************************************************* */
 
 //Import da biblioteca do prisma client
-let { PrismaClient } = require('@prisma/client');
+var { PrismaClient } = require('@prisma/client');
+var prisma = new PrismaClient();
 
-const insertAluno = function (dadosAluno) {
+const insertAluno = async function (dadosAluno) {
 
+    //Script SQL para inserir dados
+    let sql = `insert into tbl_aluno (
+                            nome, 
+                            rg,
+                            cpf,
+                            data_nascimento,
+                            email
+                        ) values (
+                            '${dadosAluno.nome}',
+                            '${dadosAluno.rg}',
+                            '${dadosAluno.cpf}',
+                            '${dadosAluno.data_nascimento}',
+                            '${dadosAluno.email}'
+                        )`;
+
+    //Sempre que não formos utilizar um select, devemos usar o metodo executeRawUnsafe                        
+    let resultStatus = await prisma.$executeRawUnsafe(sql)
+
+    if (resultStatus) {
+        return true
+    } else {
+        return false
+    }
 }
 const updateAluno = function (dadosAluno) {
 
@@ -20,8 +44,6 @@ const deleteAluno = function (id) {
 }
 
 const selectAllAlunos = async function () {
-    //Instancia da classe prisma client
-    let prisma = new PrismaClient();
 
     //script para buscar todos os itens no banco de dados
     let sql = 'select * from tbl_aluno';
@@ -39,7 +61,6 @@ const selectAllAlunos = async function () {
 }
 const selectByIdAluno = async function (id) {
 
-    let prisma = new PrismaClient();
 
     let sql = `select * from tbl_aluno where id = ${id}`
 
@@ -53,10 +74,7 @@ const selectByIdAluno = async function (id) {
 
 }
 
-const selectByNameAluno = async function(nome){
-    let prisma = new PrismaClient();
-
-    let nomeFormatado = `'%${nome}%'`
+const selectByNameAluno = async function (nome) {
 
     let sql = `select * from tbl_aluno where nome like '%${nome}%'`
 
@@ -72,5 +90,6 @@ const selectByNameAluno = async function(nome){
 module.exports = {
     selectAllAlunos,
     selectByIdAluno,
-    selectByNameAluno
+    selectByNameAluno,
+    insertAluno
 }
