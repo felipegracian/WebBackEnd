@@ -35,14 +35,51 @@ const inserirNovoAluno = async function (dadosAluno) {
 
 
 //atualizar dados do aluno
-const atualizarAluno = function (dadosAluno) {
+const atualizarAluno = async function (dadosAluno, id) {
 
+    //Validaçao de campos obrigatorios e limite de cracteres
+    if (dadosAluno.nome == ''                || dadosAluno.nome == undefined             || dadosAluno.nome.length > 100
+        || dadosAluno.rg == ''               || dadosAluno.rg == undefined               || dadosAluno.rg.length > 15
+        || dadosAluno.cpf == ''              || dadosAluno.cpf == undefined              || dadosAluno.cpf.length > 18
+        || dadosAluno.data_nascimento == ''  || dadosAluno.data_nascimento == undefined  || dadosAluno.data_nascimento.length > 10
+        || dadosAluno.email == ''            || dadosAluno.email == undefined            || dadosAluno.email.length > 255
+    ) {
+        return message.ERROR_REQUIRED_FIELDS
+    } else if(id == null || id == undefined || isNaN(id)){
+        return message.ERROR_INVALID_ID
+    } else {
+        //Adiciona o ID do aluno no JSON dos dados
+        dadosAluno.id = idALuno
+
+        let resultDadosAlunos = await alunoDao.mdlUpdateAluno(dadosAluno)
+
+        //Valida se o BD inseriu corretamente
+        if(resultDadosAlunos){
+            return message.SUCCESS_UPDATED_ITEM
+        }else{
+            return message.ERROR_SYSTEM_INTERNAL_SERVER
+        }
+    }
+    
 }
 
 
 //deletar aluno pelo id
-const deletarAluno = function (id) {
+const deletarAluno = async function (id) {
 
+    if (id == null || id == undefined || id == '' || isNaN(id)) {
+        return message.ERROR_REQUIRED_FIELDS
+    } else {
+
+        let dadosAluno = await alunoDAO.deleteAluno(id)
+
+        if(dadosAluno){
+            return message.SUCCESS_DELETED_ITEM
+        }else{
+            return message.ERROR_SYSTEM_INTERNAL_SERVER
+        }
+    }
+    
 }
 
 
@@ -101,5 +138,7 @@ module.exports = {
     getAlunos,
     getAlunosByID,
     getAlunosByName,
-    inserirNovoAluno
+    inserirNovoAluno,
+    atualizarAluno,
+    deletarAluno
 }

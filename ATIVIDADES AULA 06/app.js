@@ -45,9 +45,18 @@ entradaDados.question('Seja Bem vindo, qual o seu nome? \n', function (nomeAluno
 
                             entradaDados.question('Qual sua quarta nota? \n', function (nota4) {
                                 let quartaNota = nota4;
+                                let resultado;
 
 
-                                calcularMedia(primeiraNota, segundaNota, terceiraNota, quartaNota)
+                                resultado = matematica.calcularMedia(primeiraNota, segundaNota, terceiraNota, quartaNota)
+
+                                if(resultado == true){
+                                    entradaDados.question('Sua média está dependente do Exame, qual foi sua nota no exame? \n', function(notaExame){
+                                        let notaDoExame = notaExame;
+                                        let calculoComOExame;
+                                        calculoComOExame = matematica.calcularMediaComExame(primeiraNota, segundaNota, terceiraNota, quartaNota, notaDoExame);
+                                    }
+                            )}
                                 
 
                                 

@@ -36,11 +36,37 @@ const insertAluno = async function (dadosAluno) {
         return false
     }
 }
-const updateAluno = function (dadosAluno) {
+const updateAluno = async function (dadosAluno) {
 
+    let sql = `update tbl_aluno set 
+            nome = '${dadosAluno.nome}',
+            rg = '${dadosAluno.rg}',
+            cpf = '${dadosAluno.cpf}',
+            data_nascimento = '${dadosAluno.data_nascimento}',
+            email = '${dadosAluno.email}'
+        where id = ${dadosAluno.id}
+    `
+
+    //Executa o scriptSQL no BD
+    let resultStatus = await prisma.$executeRawUnsafe(sql)
+
+    if(resultStatus){
+        return true
+    }else{
+        return false
+    }
 }
-const deleteAluno = function (id) {
+const deleteAluno = async function (id) {
 
+    let sql = `delete from tbl_aluno where id = ${id}`
+
+    let resultStatus = await prisma.$queryRawUnsafe(sql)
+
+    if(resultStatus){
+        return true
+    }else{
+        return false
+    }
 }
 
 const selectAllAlunos = async function () {
@@ -91,5 +117,7 @@ module.exports = {
     selectAllAlunos,
     selectByIdAluno,
     selectByNameAluno,
-    insertAluno
+    insertAluno,
+    updateAluno,
+    deleteAluno
 }
