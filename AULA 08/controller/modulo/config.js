@@ -7,7 +7,7 @@
 
 const ERROR_REQUIRED_FIELDS = { status: 400, message: 'Campos obrigatórios não preenchidos'}
 
-const SUCCESS_CREATED_ITEM = {status: 201, message: 'Item criado com sucesso'}
+const SUCCESS_CREATED_ITEM = {status: 201, message: 'ALUNO ADICIONADO COM SUCESSO'}
 
 const ERROR_SYSTEM_INTERNAL_SERVER = {status: 500, message: 'Devido a um erro interno no servidor, não foi possível processar a requisição.'}
 
@@ -20,9 +20,11 @@ const ERROR_INVALID_NOME = {status: 400, message: 'O NOME INFORMADO NA REQUISIÇ
 
 const ERROR_REGISTER_NOT_FOUND= {status: 404, message: 'O SERVIDOR NÃO PODE ENCONTRAR O RECURSO SOLICITADO.'}
 
-const SUCCESS_UPDATED_ITEM = {status: 200, message: 'ITEM ATUALIZADO COM SUCESSO'}
+const SUCCESS_UPDATED_ITEM = {status: 200, message: 'ALUNO ATUALIZADO COM SUCESSO'}
 
-const SUCCESS_DELETED_ITEM = {status: 200, message: 'ITEM DELETADO COM SUCESSO'}
+const SUCCESS_DELETED_ITEM = {status: 200, message: 'ALUNO DELETADO COM SUCESSO'}
+
+const SUCCESS_REQUEST = {status: 200, message: 'REQUISIÇÃO BEM SUCEDIDA'}
 
 module.exports = {
     ERROR_REQUIRED_FIELDS,
@@ -33,5 +35,6 @@ module.exports = {
     ERROR_INVALID_NOME,
     ERROR_REGISTER_NOT_FOUND,
     SUCCESS_UPDATED_ITEM,
-    SUCCESS_DELETED_ITEM
+    SUCCESS_DELETED_ITEM,
+    SUCCESS_REQUEST
 }

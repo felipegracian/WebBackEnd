@@ -53,14 +53,8 @@ app.get('/v1/lion-school/aluno', cors(), async function(request, response){
     //Recebe os dados da controller do aluno
     let dadosAluno = await controllerAluno.getAlunos()
 
-    //Valida se existem registros de aluno
-    if(dadosAluno){
-        response.json(dadosAluno)
-        response.status(200)
-    } else{
-        response.json()
-        response.status(404)
-    }
+    response.status(dadosAluno.status)
+    response.json(dadosAluno)
 })
 
 
@@ -73,13 +67,8 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function(request, response){
 
     let dadosAluno = await controllerAluno.getAlunosByID(idAluno)
 
-    if(dadosAluno){
-        response.json(dadosAluno)
-        response.status(200)
-    } else{
-        response.json()
-        response.status(404)
-    }
+    response.status(dadosAluno.status)
+    response.json(dadosAluno)
 
 })
 
@@ -91,13 +80,8 @@ app.get('/v1/lion-school/aluno/nome/:nome', cors(), async function(request, resp
 
     let dadosAluno = await controllerAluno.getAlunosByName(nomeAluno)
 
-    if(dadosAluno){
-        response.json(dadosAluno)
-        response.status(200)
-    } else{
-        response.json()
-        response.status(404)
-    }
+    response.status(dadosAluno.status)
+    response.json(dadosAluno)
 
 })
 
@@ -108,10 +92,10 @@ app.post('/v1/lion-school/aluno', cors(), bodyParserJSON, async function(request
     //recebe os dados encaminhados na requisição
     let dadosBody = request.body
 
-    let ResultDadosAluno = await controllerAluno.inserirNovoAluno(dadosBody)
+    let resultDadosAluno = await controllerAluno.inserirNovoAluno(dadosBody)
 
-    response.status((ResultDadosAluno).status)
-    response.json(ResultDadosAluno)
+    response.status(resultDadosAluno.status)
+    response.json(resultDadosAluno)
 
 })
 
@@ -129,10 +113,10 @@ app.put('/v1/lion-school/aluno/:id', cors(), bodyParserJSON, async function(requ
         //Recebe os dados dos aluno encaminhado no corpo da requisição
         let dadosBody = request.body
 
-        let ResultDadosAluno = await controllerAluno.atualizarAluno(dadosBody, id)
+        let resultDadosAluno = await controllerAluno.atualizarAluno(dadosBody, id)
 
-        response.status((ResultDadosAluno).status)
-        response.json(ResultDadosAluno)
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
     } else {
         response.status(message.ERROR_INVALID_CONTENT_TYPE.status)
         response.json(message.ERROR_INVALID_CONTENT_TYPE)
@@ -151,10 +135,10 @@ app.delete('/v1/lion-school/aluno/:id', cors(), async function(request, response
         response.status(retornoAluno.status)
         response.json(retornoAluno)
     } else {
-        let ResultDadosAluno = await controllerAluno.ctlExcluirAluno(id)
+        let resultDadosAluno = await controllerAluno.deletarAluno(id)
 
-        response.status((ResultDadosAluno).status)
-        response.json(ResultDadosAluno)
+        response.status(resultDadosAluno.status)
+        response.json(resultDadosAluno)
     }
 })
 
